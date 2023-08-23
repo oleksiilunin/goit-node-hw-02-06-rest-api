@@ -7,7 +7,6 @@ const schema = require("../../schemas/contacts.js");
 
 router.get("/", async (req, res, next) => {
   const allContacts = await contacts.listContacts();
-  res.statusCode = 200;
   res.json(allContacts);
 });
 
@@ -27,7 +26,7 @@ router.post("/", async (req, res, next) => {
     abortEarly: false,
   });
 
-  if (typeof error !== "undefined") {
+  if (error) {
     return res
       .status(400)
       .send(
@@ -36,12 +35,6 @@ router.post("/", async (req, res, next) => {
   }
 
   const { name, email, phone } = req.body;
-
-  if (!name || !email || !phone) {
-    res.statusCode = 400;
-    res.json({ message: "missing required name field" });
-    return;
-  }
 
   const newContact = await contacts.addContact({ name, email, phone });
 
@@ -85,7 +78,9 @@ router.put("/:contactId", async (req, res, next) => {
     return;
   }
 
-  const updateContact = await contacts.updateContactById(id, body);
+  const updateContact = await contacts.updateContactById(id, body, {
+    new: true,
+  });
 
   if (!updateContact) {
     res.statusCode = 404;
