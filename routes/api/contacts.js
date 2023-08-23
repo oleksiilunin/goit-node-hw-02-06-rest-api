@@ -14,8 +14,9 @@ router.get("/:contactId", async (req, res, next) => {
   const id = req.params.contactId;
   const oneContact = await contacts.getContactById(id);
   if (!oneContact) {
-    res.statusCode = 404;
-    res.json({ message: "Not found" });
+    const error = new Error("Contact not found");
+    error.statusCode = 404;
+    next(error);
   }
   res.statusCode = 200;
   res.json(oneContact);
@@ -47,9 +48,9 @@ router.delete("/:contactId", async (req, res, next) => {
 
   const removeContact = await contacts.removeContactById(id);
   if (!removeContact) {
-    res.statusCode = 404;
-    res.json({ message: "Not found" });
-    return;
+    const error = new Error("Contact not found");
+    error.statusCode = 404;
+    next(error);
   }
 
   res.statusCode = 200;
@@ -61,7 +62,7 @@ router.put("/:contactId", async (req, res, next) => {
     abortEarly: false,
   });
 
-  if (typeof error !== "undefined") {
+  if (error) {
     return res
       .status(400)
       .send(
@@ -83,9 +84,9 @@ router.put("/:contactId", async (req, res, next) => {
   });
 
   if (!updateContact) {
-    res.statusCode = 404;
-    res.json({ message: "Not found" });
-    return;
+    const error = new Error("Contact not found");
+    error.statusCode = 404;
+    next(error);
   }
 
   res.statusCode = 200;
