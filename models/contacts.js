@@ -34,7 +34,7 @@ const removeContactById = async (contactId) => {
 const addContact = async (body) => {
   const contacts = await listContacts();
 
-  const newContact = { ...body, id: crypto.randomUUID() };
+  const newContact = { ...body };
 
   contacts.push(newContact);
 
