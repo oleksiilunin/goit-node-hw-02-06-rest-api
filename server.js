@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const app = require("./app");
 
-const { DB_URI, PORT = 8080 } = process.env;
+const { DB_URI, DB_PORT = 8080 } = process.env;
 
 mongoose.set("strictQuery", true);
 
@@ -9,7 +9,7 @@ mongoose
   .connect(DB_URI)
   .then(() => {
     console.log("CONNECT SUCCESS");
-    app.listen(PORT);
+    app.listen(DB_PORT);
   })
 
   .catch((error) => {

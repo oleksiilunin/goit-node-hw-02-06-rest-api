@@ -41,6 +41,7 @@ const updateAvatar = async (req, res) => {
     avatarURL,
   });
 };
+
 module.exports = {
   updateAvatar: ctrlWrapper(updateAvatar),
 };
