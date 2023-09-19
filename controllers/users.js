@@ -8,14 +8,9 @@ const avatarsDir = path.join(__dirname, "../", "public", "avatars");
 
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
-  const {
-    path: tempPath,
-    filename,
-    // destination
-  } = req.file;
+  const { path: tempPath, filename } = req.file;
 
   const newFileName = `${_id}_250x250_${filename}`;
-  // const resizedTempPath = path.join(destination, newFileName);
   const resultPath = path.join(avatarsDir, newFileName);
 
   await jimp
@@ -26,10 +21,6 @@ const updateAvatar = async (req, res) => {
     .catch((error) => {
       throw error;
     });
-
-  // const newFileName = `${_id}_${filename}`;
-
-  // await fs.rename(tempPath, resultPath);
 
   await fs.unlink(tempPath);
 

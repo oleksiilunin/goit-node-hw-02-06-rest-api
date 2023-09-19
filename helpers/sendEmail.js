@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const { MAILTRAP_USER, MAILTRAP_PASSWORD, MAIL_HOST } = process.env;
+const { MAILTRAP_USER, MAILTRAP_PASSWORD, MAIL_HOST, EMAIL_FOR_SEND_VERIFY } =
+  process.env;
 
 const transport = nodemailer.createTransport({
   host: MAIL_HOST,
@@ -13,7 +14,7 @@ const transport = nodemailer.createTransport({
 });
 
 function sendEmail(message) {
-  message.from = "oleksii.lunin@gmail.com";
+  message.from = EMAIL_FOR_SEND_VERIFY;
 
   return transport.sendMail(message);
 }
